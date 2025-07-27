@@ -234,8 +234,8 @@ class SmartHomeDashboard {
                 color: {
                     linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 },
                     stops: [
-                        [0, 'rgba(34, 197, 94, 0.8)'],
-                        [1, 'rgba(34, 197, 94, 0.4)']
+                        [0, 'rgba(58, 107, 198, 0.8)'],
+                        [1, 'rgba(58, 107, 198, 0.4)']
                     ]
                 }
             }],
