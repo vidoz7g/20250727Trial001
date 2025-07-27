@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>智慧家庭儀表板</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/modules/exporting.js"></script>
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- 標題區 -->
+        <header class="dashboard-header">
+            <h1>智慧家庭儀表板</h1>
+            <div class="datetime" id="datetime"></div>
+        </header>
+
+        <!-- 主要內容區 -->
+        <main class="dashboard-main">
+            <!-- 左側區域 -->
+            <div class="left-section">
+                <!-- 家電控制區 -->
+                <div class="card appliance-control">
+                    <h2>家電控制</h2>
+                    <div class="appliances-grid">
+                        <div class="appliance-item" data-device="aircon">
+                            <div class="appliance-icon">❄️</div>
+                            <div class="appliance-info">
+                                <h3>冷氣</h3>
+                                <p class="power-usage">850W</p>
+                            </div>
+                            <div class="appliance-toggle">
+                                <input type="checkbox" id="aircon-toggle" checked>
+                                <label for="aircon-toggle" class="toggle-switch"></label>
+                            </div>
+                        </div>
+
+                        <div class="appliance-item" data-device="light">
+                            <div class="appliance-icon">💡</div>
+                            <div class="appliance-info">
+                                <h3>燈光</h3>
+                                <p class="power-usage">120W</p>
+                            </div>
+                            <div class="appliance-toggle">
+                                <input type="checkbox" id="light-toggle" checked>
+                                <label for="light-toggle" class="toggle-switch"></label>
+                            </div>
+                        </div>
+
+                        <div class="appliance-item" data-device="tv">
+                            <div class="appliance-icon">📺</div>
+                            <div class="appliance-info">
+                                <h3>電視</h3>
+                                <p class="power-usage">200W</p>
+                            </div>
+                            <div class="appliance-toggle">
+                                <input type="checkbox" id="tv-toggle">
+                                <label for="tv-toggle" class="toggle-switch"></label>
+                            </div>
+                        </div>
+
+                        <div class="appliance-item" data-device="fridge">
+                            <div class="appliance-icon">🧊</div>
+                            <div class="appliance-info">
+                                <h3>冰箱</h3>
+                                <p class="power-usage">300W</p>
+                            </div>
+                            <div class="appliance-toggle">
+                                <input type="checkbox" id="fridge-toggle" checked>
+                                <label for="fridge-toggle" class="toggle-switch"></label>
+                            </div>
+                        </div>
+
+                        <div class="appliance-item" data-device="washing">
+                            <div class="appliance-icon">🧺</div>
+                            <div class="appliance-info">
+                                <h3>洗衣機</h3>
+                                <p class="power-usage">450W</p>
+                            </div>
+                            <div class="appliance-toggle">
+                                <input type="checkbox" id="washing-toggle">
+                                <label for="washing-toggle" class="toggle-switch"></label>
+                            </div>
+                        </div>
+
+                        <div class="appliance-item" data-device="dishwasher">
+                            <div class="appliance-icon">🍽️</div>
+                            <div class="appliance-info">
+                                <h3>洗碗機</h3>
+                                <p class="power-usage">600W</p>
+                            </div>
+                            <div class="appliance-toggle">
+                                <input type="checkbox" id="dishwasher-toggle">
+                                <label for="dishwasher-toggle" class="toggle-switch"></label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 用電量統計區 -->
+                <div class="card power-stats">
+                    <div class="stats-header">
+                        <h2>用電量統計</h2>
+                        <div class="period-toggle">
+                            <button class="period-btn active" data-period="week">本週</button>
+                            <button class="period-btn" data-period="month">本月</button>
+                        </div>
+                    </div>
+                    <div id="powerChart" class="chart-container"></div>
+                </div>
+            </div>
+
+            <!-- 右側區域 -->
+            <div class="right-section">
+                <!-- 即時用電資訊 -->
+                <div class="card realtime-info">
+                    <h2>即時資訊</h2>
+                    <div class="info-grid">
+                        <div class="info-item">
+                            <div class="info-icon">⚡</div>
+                            <div class="info-content">
+                                <h3>目前總耗電</h3>
+                                <p class="info-value" id="currentPower">1,470W</p>
+                            </div>
+                        </div>
+
+                        <div class="info-item">
+                            <div class="info-icon">🔥</div>
+                            <div class="info-content">
+                                <h3>最高耗電家電</h3>
+                                <p class="info-value" id="topConsumer">冷氣 (850W)</p>
+                            </div>
+                        </div>
+
+                        <div class="info-item">
+                            <div class="info-icon">📊</div>
+                            <div class="info-content">
+                                <h3>今日用電</h3>
+                                <p class="info-value" id="todayUsage">24.5 kWh</p>
+                            </div>
+                        </div>
+
+                        <div class="info-item">
+                            <div class="info-icon">💰</div>
+                            <div class="info-content">
+                                <h3>預估費用</h3>
+                                <p class="info-value" id="estimatedCost">NT$ 147</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 高峰用電時段 -->
+                <div class="card peak-hours">
+                    <h2>高峰用電時段</h2>
+                    <div id="peakChart" class="chart-container"></div>
+                    <div class="peak-info">
+                        <div class="peak-time">
+                            <h3>今日高峰時段</h3>
+                            <p id="peakHour">19:00 - 21:00</p>
+                        </div>
+                        <div class="peak-consumption">
+                            <h3>高峰用電量</h3>
+                            <p id="peakConsumption">2.8 kWh</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 家電狀態總覽 -->
+                <div class="card device-overview">
+                    <h2>設備狀態</h2>
+                    <div class="status-summary">
+                        <div class="status-item">
+                            <span class="status-label">開啟中</span>
+                            <span class="status-count" id="onlineDevices">3</span>
+                        </div>
+                        <div class="status-item">
+                            <span class="status-label">關閉中</span>
+                            <span class="status-count" id="offlineDevices">3</span>
+                        </div>
+                        <div class="status-item">
+                            <span class="status-label">總設備</span>
+                            <span class="status-count" id="totalDevices">6</span>
+                        </div>
+                    </div>
+                    <div class="device-list" id="deviceList">
+                        <!-- 動態生成設備列表 -->
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html> 
